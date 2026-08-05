@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Warehouse Wallet — Membership Card Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="crate-pattern" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">▣</span>
+      <span class="brand-name">Warehouse&nbsp;Wallet</span>
+    </div>
+    <button id="signOutBtn" class="btn-ghost hidden">Sign out</button>
+  </header>
+
+  <main id="app">
+
+    <!-- AUTH VIEW -->
+    <section id="authView" class="view">
+      <div class="auth-card">
+        <p class="eyebrow">Aisle 1 · Account</p>
+        <h1 id="authTitle">Sign in to your wallet</h1>
+        <p class="sub">Keep your membership card on hand — number, expiry, and a scannable barcode, in one place.</p>
+
+        <form id="authForm" class="stack">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" id="authEmail" required autocomplete="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <input type="password" id="authPassword" required autocomplete="current-password" placeholder="••••••••" minlength="6" />
+          </label>
+          <p id="authError" class="error hidden"></p>
+          <button type="submit" id="authSubmit" class="btn-primary">Sign in</button>
+        </form>
+
+        <p class="switch">
+          <span id="switchPrompt">New here?</span>
+          <button id="switchModeBtn" class="link-btn">Create an account</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD VIEW -->
+    <section id="dashView" class="view hidden">
+
+      <!-- Empty state -->
+      <div id="emptyState" class="empty-state hidden">
+        <p class="eyebrow">Bay 12 · Empty</p>
+        <h2>No card on file yet</h2>
+        <p class="sub">Add your membership details once — pull it up at the door from here on out.</p>
+        <button id="addCardBtnEmpty" class="btn-primary">Add your card</button>
+      </div>
+
+      <!-- Card display -->
+      <div id="cardDisplay" class="card-display hidden">
+
+        <div class="card-scene">
+          <div class="member-card" id="memberCard">
+            <div class="status-flag" id="statusFlag">ACTIVE</div>
+            <div class="card-top">
+              <span class="card-org">WAREHOUSE WALLET</span>
+              <span class="card-tier" id="cardTier">GOLD STAR</span>
+            </div>
+            <div class="card-name" id="cardName">MEMBER NAME</div>
+            <div class="card-number" id="cardNumber">0000 0000 0000</div>
+            <div class="card-bottom">
+              <div class="barcode-wrap">
+                <svg id="barcodeSvg"></svg>
+              </div>
+              <div class="card-expiry">
+                <span class="tiny-label">Valid thru</span>
+                <span id="cardExpiry">--/--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button id="editCardBtn" class="btn-secondary">Edit details</button>
+          <button id="deleteCardBtn" class="btn-ghost-danger">Remove card</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ADD/EDIT MODAL -->
+  <div id="cardModal" class="modal-backdrop hidden">
+    <div class="modal">
+      <p class="eyebrow">Bay 12 · Card details</p>
+      <h2 id="modalTitle">Add your card</h2>
+      <form id="cardForm" class="stack">
+        <label class="field">
+          <span>Member name</span>
+          <input type="text" id="memberName" required placeholder="As printed on the card" />
+        </label>
+        <label class="field">
+          <span>Membership number</span>
+          <input type="text" id="membershipNumber" required inputmode="numeric" placeholder="e.g. 111234567890" />
+        </label>
+        <label class="field">
+          <span>Membership type</span>
+          <select id="membershipType">
+            <option value="Gold Star">Gold Star</option>
+            <option value="Gold Star Executive">Gold Star Executive</option>
+            <option value="Business">Business</option>
+            <option value="Business Executive">Business Executive</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Expiration date</span>
+          <input type="date" id="expirationDate" required />
+        </label>
+        <p id="formError" class="error hidden"></p>
+        <div class="modal-actions">
+          <button type="button" id="cancelModalBtn" class="btn-ghost">Cancel</button>
+          <button type="submit" class="btn-primary" id="saveCardBtn">Save card</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js" defer></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
